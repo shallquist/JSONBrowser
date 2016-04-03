@@ -55,22 +55,22 @@ class TableViewController: UITableViewController {
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        //configure the cell
         if let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? TableViewCell{
             var text = ""
-            let aValue = values[indexPath.row]
+            let aValue = values[indexPath.row]  //get current value for current row
             
             let title = aValue.shown ? "-" : "+"
             
             cell.button.setTitle(title, forState: .Normal)
             cell.buttonLeading.constant = CGFloat(values[indexPath.row].level) * 5.0
 
-            cell.fxShowHideRow = nil
+            cell.fxShowHideRow = nil   //call back function from table view cell is nil, assigned a function when value is a Dictionary
             cell.button.hidden = true
                 
             switch aValue.anObj {
             case is NSArray, is NSDictionary:
-                cell.fxShowHideRow = self.showHideRow
+                cell.fxShowHideRow = self.showHideRow   //since this object is anArray or Dictionary there are additional items that can be shown, so assing callback
                 cell.button.hidden = false
                 
                 text = "{\(getNumRows(aValue.anObj))}"
@@ -101,6 +101,7 @@ class TableViewController: UITableViewController {
     }
     
   
+    //depending on the current status of the row show or hide the row.  Iniated by click on tableview cell
     func showHideRow(show:Bool, cell:UITableViewCell){
         let indexPath = self.tableView.indexPathForCell(cell)
 
@@ -113,6 +114,8 @@ class TableViewController: UITableViewController {
         }
     }
     
+    
+    //expand current roww by adding the current dictionary values to the values arrays
     func expandRow(row:Int) {
         values[row].shown = true
         let level = values[row].level + 1
@@ -129,6 +132,7 @@ class TableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    //when called will collapse current row and any subrows
     func collapseRow(row:Int){
         values[row].shown = false
         
@@ -153,6 +157,8 @@ class TableViewController: UITableViewController {
         }
     }
     
+    
+    //purpose of this is convert arrays into dictionaries so that we don't need to worry about recognizing both in setting up table view cells
     func getDictionary(source:AnyObject?) -> [String:AnyObject]?{
         var newSource: [String:AnyObject]?
         

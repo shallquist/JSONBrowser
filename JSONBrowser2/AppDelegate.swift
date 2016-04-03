@@ -5,6 +5,13 @@
 //  Created by steig hallquist on 3/28/16.
 //  Copyright © 2016 steig hallquist. All rights reserved.
 //
+/*
+ 
+ Given a JSONSerilization Object this app will show all the elements and nodes of the JSON Message as a Tree in a tableview.
+ 
+ To run this application you'll need a MAPQuest App key.  https://developer.mapquest.com/
+ 
+ */
 
 import UIKit
 

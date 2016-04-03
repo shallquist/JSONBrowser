@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -33,15 +32,20 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        //start animating activity view
         self.activityView.startAnimating()
         
+        //create an operation to run url request
         let anOperation = NSBlockOperation { () -> Void in
             self.performRequest()
         }
         
+        //create and start queue
         let aQueue = NSOperationQueue()
         aQueue.addOperation(anOperation)
         
+        //wait until the operation has completed
         anOperation.waitUntilFinished()
         
         self.activityView.stopAnimating()
@@ -49,12 +53,14 @@ class ViewController: UIViewController {
     }
     
     func performRequest(){
+        //url with request for directions from to locations.  MAPQUEST_KEY must be entered in AppDelegate.swift
         let sURL = "http://www.mapquestapi.com/directions/v2/route?key=\(MAPQUEST_KEY)&from=Lancaster,PA&to=York,PA"
         let nsURL = NSURL(string: sURL);
         
+        // start session to retrieve data
         let sessionTask = NSURLSession.sharedSession().dataTaskWithURL(nsURL!) { (data, response, error) -> Void in
             if error == nil {
-                if data != nil { self.jsonData = self.getJSON(data!) }
+                if data != nil { self.jsonData = self.getJSON(data!) }  //get JSON Data from response
             } else { //failure
                 
             }
@@ -78,8 +84,7 @@ class ViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let tVC = segue.destinationViewController as? TableViewController
         
-        //tVC?.anArray = self.jsonData!["route"]!["legs"]!!["maneuvers"] as? NSArray
-        
+        //assign JSON Data to Table View controller
         tVC?.source = self.jsonData
     }
     
