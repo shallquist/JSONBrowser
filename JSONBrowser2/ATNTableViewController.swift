@@ -8,34 +8,18 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class ATNTableViewController: UITableViewController {
     
-    var source: AnyObject?
     var values = [(key:String, anObj:AnyObject,shown:Bool,level:Int)]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.cellLayoutMarginsFollowReadableWidth = false
-        
-        //source = ["greet":"hello","values":["one",["a":"two","b":"four"],"three"]]
+        self.tableView.registerNib(UINib(nibName:"TableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
+        //self.tableView.cellLayoutMarginsFollowReadableWidth = false
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
-        if let newSource = getDictionary(source){
-            for (key,value) in newSource {
-                values.append((key,value,false,0))
-            }
-        }
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        values.removeAll()
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -73,7 +57,7 @@ class TableViewController: UITableViewController {
                 cell.fxShowHideRow = self.showHideRow   //since this object is anArray or Dictionary there are additional items that can be shown, so assing callback
                 cell.button.hidden = false
                 
-                text = "{\(getNumRows(aValue.anObj))}"
+                text = aValue.anObj is NSArray ? "[\(getNumRows(aValue.anObj))]" : "{\(getNumRows(aValue.anObj))}"
             case is NSString:
                 text = aValue.anObj as! String
             case is NSNumber:

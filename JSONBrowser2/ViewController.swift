@@ -82,7 +82,7 @@ class ViewController: UIViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let tVC = segue.destinationViewController as? TableViewController
+        let tVC = segue.destinationViewController as? MainTableViewController
         
         //assign JSON Data to Table View controller
         tVC?.source = self.jsonData
