@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var showButton: UIButton!
-    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    @IBOutlet weak var urlField: UITextField!
 
     var jsonData:NSDictionary?
     
@@ -34,43 +34,41 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         //start animating activity view
-        self.activityView.startAnimating()
         
-        //create an operation to run url request
-        let anOperation = NSBlockOperation { () -> Void in
-            self.performRequest()
-        }
         
-        //create and start queue
-        let aQueue = NSOperationQueue()
-        aQueue.addOperation(anOperation)
-        
-        //wait until the operation has completed
-        anOperation.waitUntilFinished()
-        
-        self.activityView.stopAnimating()
         self.showButton.hidden = false
     }
     
     func performRequest(){
-        //url with request for directions from to locations.  MAPQUEST_KEY must be entered in AppDelegate.swift
-        let sURL = "http://www.mapquestapi.com/directions/v2/route?key=\(MAPQUEST_KEY)&from=Lancaster,PA&to=York,PA"
-        let nsURL = NSURL(string: sURL);
+        let sURL = self.urlField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
-        // start session to retrieve data
-        let sessionTask = NSURLSession.sharedSession().dataTaskWithURL(nsURL!) { (data, response, error) -> Void in
-            if error == nil {
-                if data != nil { self.jsonData = self.getJSON(data!) }  //get JSON Data from response
-            } else { //failure
+        if !sURL!.isEmpty {
+            let nsURL = NSURL(string: sURL!);
+            
+            // start session to retrieve data
+            let sessionTask = NSURLSession.sharedSession().dataTaskWithURL(nsURL!) { (data, response, error) -> Void in
                 
+                NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                    if error == nil {
+                        if data != nil {
+                            self.jsonData = self.extractJSON(data!)
+                            self.performSegueWithIdentifier("ShowDetail", sender: self)
+                        }  //get JSON Data from response
+                    } else { //failure
+                        print(error)
+                    }
+                    
+                    self.showButton.enabled = true
+                })
             }
+            
+            self.showButton.enabled = false
+            sessionTask.resume()
         }
-        
-        sessionTask.resume()
     }
     
     
-    func getJSON(results:NSData)->NSDictionary?{
+    func extractJSON(results:NSData)->NSDictionary?{
         weak var myData:NSDictionary?
         do {
             myData = try NSJSONSerialization.JSONObjectWithData(results, options: .MutableLeaves) as? NSDictionary
@@ -88,7 +86,14 @@ class ViewController: UIViewController {
         tVC?.source = self.jsonData
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        return !(self.jsonData == nil)
+    }
     
-  
+    
+    @IBAction func getJSON(sender: UIButton) {
+        //create an operation to run url request
+        self.performRequest()
+    }
 }
 

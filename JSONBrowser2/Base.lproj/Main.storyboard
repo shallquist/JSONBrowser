@@ -90,30 +90,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unR-xI-Lme">
-                                <rect key="frame" x="277" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unR-xI-Lme">
+                                <rect key="frame" x="276" y="285" width="46" height="30"/>
+                                <state key="normal" title="Get JSON"/>
                                 <connections>
-                                    <segue destination="HAs-oy-K8h" kind="show" id="dxJ-ad-fwQ"/>
+                                    <action selector="getJSON:" destination="hSO-se-Jd9" eventType="touchUpInside" id="NXw-gx-lx3"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pMg-0f-rS9">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
-                                <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter full URL with parameters" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="XkQ-2j-UIV">
+                                <rect key="frame" x="20" y="247" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="unR-xI-Lme" firstAttribute="centerX" secondItem="pMg-0f-rS9" secondAttribute="centerX" id="LKS-Rd-Joa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XkQ-2j-UIV" secondAttribute="trailing" id="EKD-yi-6hF"/>
+                            <constraint firstItem="XkQ-2j-UIV" firstAttribute="leading" secondItem="95d-mb-Nyl" secondAttribute="leadingMargin" id="IES-JV-g2r"/>
                             <constraint firstItem="unR-xI-Lme" firstAttribute="centerX" secondItem="95d-mb-Nyl" secondAttribute="centerX" id="Mc2-8C-h5y"/>
-                            <constraint firstItem="unR-xI-Lme" firstAttribute="centerY" secondItem="pMg-0f-rS9" secondAttribute="centerY" id="kmP-87-kIG"/>
+                            <constraint firstItem="unR-xI-Lme" firstAttribute="top" secondItem="XkQ-2j-UIV" secondAttribute="bottom" constant="8" symbolic="YES" id="i1y-te-Wqd"/>
                             <constraint firstItem="unR-xI-Lme" firstAttribute="centerY" secondItem="95d-mb-Nyl" secondAttribute="centerY" id="nKg-bL-uPD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aen-ym-oqn"/>
                     <connections>
-                        <outlet property="activityView" destination="pMg-0f-rS9" id="0Z6-Ch-AXc"/>
                         <outlet property="showButton" destination="unR-xI-Lme" id="cR0-TL-RNf"/>
+                        <outlet property="urlField" destination="XkQ-2j-UIV" id="nKj-fU-eiX"/>
+                        <segue destination="HAs-oy-K8h" kind="show" identifier="ShowDetail" id="nJz-ng-dhm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="064-ng-TgP" userLabel="First Responder" sceneMemberID="firstResponder"/>
