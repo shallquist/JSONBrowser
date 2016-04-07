@@ -3,7 +3,7 @@ JSON Browser is an iOS application that will display the contents of a JSON Obje
 
 NOTE: This is work in progress, that I return to from time to time to improve and add featrues.
 
-JSONBrowser is a simple app that will display the JSON Data in a tableView as a typical tree view.  To run the sample data used in this project you will need a MapQuest app key which can be acquired at [MapQuest] (https://developer.mapquest.com/).  The MapQuest key is assigned to the MAPQUEST_KEY variable within the AppDelegate.swift file.
+JSONBrowser is a simple app that will display the JSON Data in a tableView as a typical tree view.    Enter a URL JSON data request on the first view then select the getJSON button to retrieve data and display in a tree view.
 
 Added a search feature to the app.  The search term must follow a specific format.
 [#] retrieves an array element
